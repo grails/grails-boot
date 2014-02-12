@@ -15,9 +15,7 @@
 package org.grails.datastore.gorm.boot.autoconfigure
 
 import grails.orm.bootstrap.HibernateDatastoreSpringInitializer
-import grails.persistence.Entity
 import groovy.transform.CompileStatic
-import org.codehaus.groovy.grails.compiler.gorm.GormTransformer
 import org.codehaus.groovy.grails.orm.hibernate.cfg.GrailsAnnotationConfiguration
 import org.springframework.beans.factory.BeanFactory
 import org.springframework.beans.factory.BeanFactoryAware
@@ -35,14 +33,8 @@ import org.springframework.boot.autoconfigure.orm.jpa.HibernateJpaAutoConfigurat
 import org.springframework.context.ResourceLoaderAware
 import org.springframework.context.annotation.Configuration
 import org.springframework.context.annotation.ImportBeanDefinitionRegistrar
-import org.springframework.core.env.Environment
-import org.springframework.core.io.Resource
 import org.springframework.core.io.ResourceLoader
-import org.springframework.core.io.support.PathMatchingResourcePatternResolver
-import org.springframework.core.io.support.ResourcePatternResolver
 import org.springframework.core.type.AnnotationMetadata
-import org.springframework.core.type.classreading.CachingMetadataReaderFactory
-import org.springframework.util.ClassUtils
 
 import javax.sql.DataSource
 
@@ -61,59 +53,22 @@ import javax.sql.DataSource
 @AutoConfigureBefore(HibernateJpaAutoConfiguration)
 class HibernateGormAutoConfiguration implements BeanFactoryAware, ResourceLoaderAware, ImportBeanDefinitionRegistrar{
 
-    private static final String ENTITY_CLASS_RESOURCE_PATTERN = "/**/*.class"
-
     @Autowired(required = false)
     Properties hibernateProperties = new Properties()
 
-    Environment environment
-
     BeanFactory beanFactory
 
-    ResourcePatternResolver resourcePatternResolver = new PathMatchingResourcePatternResolver()
-
-
-    @Override
-    void setResourceLoader(ResourceLoader resourceLoader) {
-        resourcePatternResolver = new PathMatchingResourcePatternResolver(resourceLoader)
-    }
-
-    void setResourcePatternResolver(ResourcePatternResolver resourcePatternResolver) {
-        this.resourcePatternResolver = resourcePatternResolver
-    }
+    ResourceLoader resourceLoader
 
     @Override
     void registerBeanDefinitions(AnnotationMetadata importingClassMetadata, BeanDefinitionRegistry registry) {
         HibernateDatastoreSpringInitializer initializer
         def packages = AutoConfigurationPackages.get(beanFactory)
         def classLoader = ((ConfigurableBeanFactory)beanFactory).getBeanClassLoader()
-        Collection<Class> persistentClasses = []
 
-        for(pkg in packages) {
-            String pattern = ResourcePatternResolver.CLASSPATH_ALL_URL_PREFIX +
-                    ClassUtils.convertClassNameToResourcePath(pkg) + ENTITY_CLASS_RESOURCE_PATTERN;
-
-            def readerFactory = new CachingMetadataReaderFactory(resourcePatternResolver)
-            def resources = this.resourcePatternResolver.getResources(pattern)
-            for(Resource res in resources) {
-                def reader = readerFactory.getMetadataReader(res)
-                if( reader.annotationMetadata.hasAnnotation( Entity.name ) ) {
-                    persistentClasses << classLoader.loadClass( reader.classMetadata.className )
-                }
-            }
-
-            def entityNames = GormTransformer.getKnownEntityNames()
-            for(entityName in entityNames) {
-                try {
-                    persistentClasses << classLoader.loadClass( entityName )
-                } catch (ClassNotFoundException e) {
-                    // ignore
-                }
-            }
-
-        }
-
-        initializer = new HibernateDatastoreSpringInitializer(hibernateProperties, persistentClasses)
+        initializer = new HibernateDatastoreSpringInitializer(classLoader, packages as String[])
+        initializer.resourceLoader = resourceLoader
+        initializer.setHibernateProperties(hibernateProperties)
         initializer.configureForBeanDefinitionRegistry(registry)
     }
 }

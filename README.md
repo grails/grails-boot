@@ -1,4 +1,4 @@
 grails-boot
 ===========
 
-Grails integrations with Spring Boot
+Code moved to https://github.com/grails/grails-data-mapping/tree/master/boot-plugins

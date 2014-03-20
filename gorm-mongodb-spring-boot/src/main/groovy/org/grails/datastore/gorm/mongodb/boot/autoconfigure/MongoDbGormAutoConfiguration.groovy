@@ -18,6 +18,7 @@ import com.mongodb.Mongo
 import com.mongodb.MongoOptions
 import grails.mongodb.bootstrap.MongoDbDataStoreSpringInitializer
 import groovy.transform.CompileStatic
+import org.grails.datastore.mapping.mongo.MongoDatastore
 import org.springframework.beans.factory.BeanFactory
 import org.springframework.beans.factory.BeanFactoryAware
 import org.springframework.beans.factory.annotation.Autowired
@@ -43,7 +44,7 @@ import org.springframework.core.type.AnnotationMetadata
  */
 @CompileStatic
 @Configuration
-@ConditionalOnMissingBean(MongoDbDataStoreSpringInitializer)
+@ConditionalOnMissingBean(MongoDatastore)
 @AutoConfigureAfter(MongoAutoConfiguration)
 class MongoDbGormAutoConfiguration implements BeanFactoryAware, ResourceLoaderAware, ImportBeanDefinitionRegistrar{
 

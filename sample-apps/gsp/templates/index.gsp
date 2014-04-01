@@ -10,5 +10,7 @@
 		<g:each in="${[1,2,3]}" var="num">
 			<p>Number ${num}</p>
 		</g:each>
+		<h3>Using a tag library</h3>
+		<g:dateFormat format="dd-MM-yyyy" date="${new Date()}" />
 	</body>
 </html>

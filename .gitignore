@@ -1,4 +1,9 @@
-gorm-hibernate4-spring-boot/.gradle/*
-gorm-hibernate4-spring-boot/.idea/*
-gorm-hibernate4-spring-boot/build/*
-gorm-hibernate4-spring-boot/out/*
+*/.gradle/
+*/build/
+*/.settings/
+*/.idea/
+*/.classpath
+*/.project
+*/target/
+*/bin/
+*/target-eclipse/

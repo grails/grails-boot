@@ -1,0 +1,52 @@
+apply from:'../gradle/maven-central-build.gradle'
+
+configurations {
+    provided
+}
+
+ext {
+    springBootVersion = '1.0.0.RC5'
+    grailsVersion = '2.4.0.BUILD-SNAPSHOT'
+    groovyVersion = '2.2.2'
+}
+
+group = 'org.grails'
+version = "1.0.0.BUILD-SNAPSHOT"
+sourceCompatibility = 1.6
+targetCompatibility = 1.6
+
+apply plugin: 'eclipse'
+apply plugin: 'idea'
+
+repositories {
+    mavenCentral()
+    maven { url "http://repo.spring.io/libs-milestone" }
+    mavenLocal()
+}
+
+dependencies {
+    compile "org.grails:grails-web-gsp:${grailsVersion}"
+    compile "org.codehaus.groovy:groovy-all:${groovyVersion}"
+    compile "org.springframework.boot:spring-boot-autoconfigure:${springBootVersion}"
+    compile "org.springframework.boot:spring-boot-cli:${springBootVersion}", {
+        exclude group:'org.codehaus.groovy', module:'groovy'
+    }
+    provided "javax.servlet:javax.servlet-api:3.0.1"
+    //testCompile "org.spockframework:spock-core:0.7-groovy-2.0"
+}
+
+sourceSets.main.compileClasspath += configurations.provided
+idea {
+  module{
+    scopes.PROVIDED.plus += configurations.provided
+  }
+}
+eclipse {
+  classpath {
+    plusConfigurations += configurations.provided
+  }
+}
+
+task wrapper(type: Wrapper) {
+    gradleVersion = '1.11'
+}

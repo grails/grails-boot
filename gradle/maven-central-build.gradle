@@ -24,8 +24,8 @@ artifacts {
 }
 
 signing {
-    signedFiles = sign( configurations.archives )
-    required { !isBuildSnapshot  }
+    required { !isBuildSnapshot && gradle.taskGraph.hasTask("uploadArchives") }
+    sign configurations.archives
 }
 
 uploadArchives {

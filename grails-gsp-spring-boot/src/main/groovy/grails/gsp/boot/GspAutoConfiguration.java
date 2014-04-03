@@ -82,7 +82,7 @@ public class GspAutoConfiguration {
                 }
             };
             pageLocator.setReloadEnabled(gspReloadingEnabled);
-            pageLocator.setCacheTimeout(locatorCacheTimeout);
+            pageLocator.setCacheTimeout(gspReloadingEnabled ? locatorCacheTimeout : -1);
             return pageLocator;
         }
         
@@ -90,8 +90,8 @@ public class GspAutoConfiguration {
         @ConditionalOnMissingBean(name = "gspViewResolver")
         public GrailsViewResolver gspViewResolver() {
             GrailsViewResolver gspViewResolver = new GrailsViewResolver();
-            gspViewResolver.setAllowGrailsViewCaching(viewCacheTimeout != 0);
-            gspViewResolver.setCacheTimeout(viewCacheTimeout);
+            gspViewResolver.setAllowGrailsViewCaching(!gspReloadingEnabled || viewCacheTimeout != 0);
+            gspViewResolver.setCacheTimeout(gspReloadingEnabled ? viewCacheTimeout : -1);
             return gspViewResolver;
         }
     }

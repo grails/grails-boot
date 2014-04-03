@@ -17,7 +17,6 @@
 package grails.gsp.boot;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 import org.codehaus.groovy.grails.web.pages.GroovyPagesTemplateEngine;
@@ -49,14 +48,26 @@ public class GspAutoConfiguration {
     @Configuration
     @Import({TagLibraryLookupRegistrar.class})
     protected static class GspTemplateEngineAutoConfiguration {
+        @Value("${spring.gsp.templateRoots:classpath:/templates}")
+        String[] templateRoots;
+        
+        @Value("${spring.gsp.reloadingEnabled:true}")
+        boolean gspReloadingEnabled;
+        
+        @Value("${spring.gsp.locator.cacheTimeout:5000}")
+        long locatorCacheTimeout;
+        
+        @Value("${spring.gsp.view.cacheTimeout:1000}")
+        long viewCacheTimeout;
+        
+        
         @Bean(autowire=Autowire.BY_NAME)
         @ConditionalOnMissingBean(name="groovyPagesTemplateEngine") 
         GroovyPagesTemplateEngine groovyPagesTemplateEngine() {
-            return new GroovyPagesTemplateEngine();
+            GroovyPagesTemplateEngine templateEngine = new GroovyPagesTemplateEngine();
+            templateEngine.setReloadEnabled(gspReloadingEnabled);
+            return templateEngine;
         }
-        
-        @Value("${spring.gsp.templateRoots:classpath:/templates}")
-        String[] templateRoots;
         
         @Bean(autowire=Autowire.BY_NAME)
         @ConditionalOnMissingBean(name="groovyPageLocator")
@@ -70,7 +81,8 @@ public class GspAutoConfiguration {
                     return paths;
                 }
             };
-            pageLocator.setReloadEnabled(false);
+            pageLocator.setReloadEnabled(gspReloadingEnabled);
+            pageLocator.setCacheTimeout(locatorCacheTimeout);
             return pageLocator;
         }
         
@@ -78,7 +90,8 @@ public class GspAutoConfiguration {
         @ConditionalOnMissingBean(name = "gspViewResolver")
         public GrailsViewResolver gspViewResolver() {
             GrailsViewResolver gspViewResolver = new GrailsViewResolver();
-            gspViewResolver.setAllowGrailsViewCaching(true);
+            gspViewResolver.setAllowGrailsViewCaching(viewCacheTimeout != 0);
+            gspViewResolver.setCacheTimeout(viewCacheTimeout);
             return gspViewResolver;
         }
     }

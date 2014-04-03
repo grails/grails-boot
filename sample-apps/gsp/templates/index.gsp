@@ -12,5 +12,6 @@
 		</g:each>
 		<h3>Using a tag library</h3>
 		<g:dateFormat format="dd-MM-yyyy" date="${new Date()}" />
+		<g:render template="subtemplate" />
 	</body>
 </html>

@@ -26,6 +26,7 @@ repositories {
 
 dependencies {
     compile "org.grails:grails-web-gsp:${grailsVersion}"
+    compile "org.grails:grails-spring:${grailsVersion}"
     compile "org.codehaus.groovy:groovy-all:${groovyVersion}"
     compile "org.springframework.boot:spring-boot-autoconfigure:${springBootVersion}"
     compile "org.springframework.boot:spring-boot-cli:${springBootVersion}", {

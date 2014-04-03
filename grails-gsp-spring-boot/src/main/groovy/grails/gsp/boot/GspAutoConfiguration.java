@@ -20,10 +20,12 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.codehaus.groovy.grails.web.pages.GroovyPagesTemplateEngine;
+import org.codehaus.groovy.grails.web.pages.GroovyPagesTemplateRenderer;
 import org.codehaus.groovy.grails.web.pages.StandaloneTagLibraryLookup;
 import org.codehaus.groovy.grails.web.pages.discovery.CachingGrailsConventionGroovyPageLocator;
 import org.codehaus.groovy.grails.web.pages.discovery.GroovyPageLocator;
 import org.codehaus.groovy.grails.web.servlet.view.GrailsViewResolver;
+import org.codehaus.groovy.grails.web.sitemesh.GroovyPageLayoutFinder;
 import org.springframework.beans.factory.annotation.Autowire;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.beans.factory.config.BeanDefinition;
@@ -60,6 +62,11 @@ public class GspAutoConfiguration {
         @Value("${spring.gsp.view.cacheTimeout:1000}")
         long viewCacheTimeout;
         
+        @Value("${spring.gsp.layout.caching:true}")
+        boolean gspLayoutCaching;
+        
+        @Value("${spring.gsp.layout.default:main}")
+        String defaultLayoutName;
         
         @Bean(autowire=Autowire.BY_NAME)
         @ConditionalOnMissingBean(name="groovyPagesTemplateEngine") 
@@ -93,6 +100,26 @@ public class GspAutoConfiguration {
             gspViewResolver.setAllowGrailsViewCaching(!gspReloadingEnabled || viewCacheTimeout != 0);
             gspViewResolver.setCacheTimeout(gspReloadingEnabled ? viewCacheTimeout : -1);
             return gspViewResolver;
+        }
+        
+        @Bean
+        @ConditionalOnMissingBean(name = "groovyPageLayoutFinder")
+        public GroovyPageLayoutFinder groovyPageLayoutFinder() {
+            GroovyPageLayoutFinder groovyPageLayoutFinder = new GroovyPageLayoutFinder();
+            groovyPageLayoutFinder.setGspReloadEnabled(gspReloadingEnabled);
+            groovyPageLayoutFinder.setCacheEnabled(gspLayoutCaching);
+            groovyPageLayoutFinder.setViewResolver(gspViewResolver());
+            groovyPageLayoutFinder.setEnableNonGspViews(false);
+            groovyPageLayoutFinder.setDefaultDecoratorName(defaultLayoutName);
+            return groovyPageLayoutFinder;
+        }
+        
+        @Bean(autowire=Autowire.BY_NAME)
+        @ConditionalOnMissingBean(name = "groovyPagesTemplateRenderer")
+        GroovyPagesTemplateRenderer groovyPagesTemplateRenderer() {
+            GroovyPagesTemplateRenderer groovyPagesTemplateRenderer = new GroovyPagesTemplateRenderer();
+            groovyPagesTemplateRenderer.setCacheEnabled(!gspReloadingEnabled);
+            return groovyPagesTemplateRenderer;
         }
     }
     

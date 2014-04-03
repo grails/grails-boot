@@ -16,6 +16,7 @@
 
 package grails.gsp.boot;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -25,6 +26,7 @@ import org.codehaus.groovy.grails.web.pages.discovery.CachingGrailsConventionGro
 import org.codehaus.groovy.grails.web.pages.discovery.GroovyPageLocator;
 import org.codehaus.groovy.grails.web.servlet.view.GrailsViewResolver;
 import org.springframework.beans.factory.annotation.Autowire;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.beans.factory.config.BeanDefinition;
 import org.springframework.beans.factory.support.BeanDefinitionRegistry;
 import org.springframework.beans.factory.support.GenericBeanDefinition;
@@ -53,12 +55,19 @@ public class GspAutoConfiguration {
             return new GroovyPagesTemplateEngine();
         }
         
+        @Value("${spring.gsp.templateRoots:classpath:/templates}")
+        String[] templateRoots;
+        
         @Bean(autowire=Autowire.BY_NAME)
         @ConditionalOnMissingBean(name="groovyPageLocator")
         GroovyPageLocator groovyPageLocator() {
             CachingGrailsConventionGroovyPageLocator pageLocator = new CachingGrailsConventionGroovyPageLocator() {
                 protected List<String> resolveSearchPaths(String uri) {
-                    return Arrays.asList(new String[]{"classpath:/templates" + StringUtils.cleanPath(uri)});
+                    List<String> paths=new ArrayList<String>(templateRoots.length);
+                    for(String rootPath : templateRoots) {
+                        paths.add(rootPath + StringUtils.cleanPath(uri));
+                    }
+                    return paths;
                 }
             };
             pageLocator.setReloadEnabled(false);

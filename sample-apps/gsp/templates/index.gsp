@@ -1,4 +1,8 @@
 <html>
+	<head>
+		<title>GSP example</title>
+		<meta name="keywords" content="gsp,example">
+	</head>
 	<body>
 		<h3>Accessing the model</h3>
 		Hello, ${name}.
@@ -13,5 +17,8 @@
 		<h3>Using a tag library</h3>
 		<g:dateFormat format="dd-MM-yyyy" date="${new Date()}" />
 		<g:render template="subtemplate" />
+		<g:applyLayout name="sample">
+		Text to decorate. 
+		</g:applyLayout>
 	</body>
 </html>

@@ -21,6 +21,8 @@ import java.util.List;
 
 import org.codehaus.groovy.grails.commons.GrailsApplication;
 import org.codehaus.groovy.grails.commons.StandaloneGrailsApplication;
+import org.codehaus.groovy.grails.plugins.codecs.StandaloneCodecLookup;
+import org.codehaus.groovy.grails.support.encoding.CodecLookup;
 import org.codehaus.groovy.grails.web.pages.GroovyPagesTemplateEngine;
 import org.codehaus.groovy.grails.web.pages.GroovyPagesTemplateRenderer;
 import org.codehaus.groovy.grails.web.pages.StandaloneTagLibraryLookup;
@@ -148,6 +150,15 @@ public class GspAutoConfiguration {
             innerGspViewResolver.setAllowGrailsViewCaching(!gspReloadingEnabled || viewCacheTimeout != 0);
             innerGspViewResolver.setCacheTimeout(gspReloadingEnabled ? viewCacheTimeout : -1);
             return innerGspViewResolver;
+        }
+    }
+    
+    @Configuration 
+    protected static class CodecLookupConfiguration {
+        @Bean
+        @ConditionalOnMissingBean(name = "codecLookup")
+        public CodecLookup codecLookup() {
+            return new StandaloneCodecLookup();
         }
     }
     

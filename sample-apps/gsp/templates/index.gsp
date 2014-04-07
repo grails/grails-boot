@@ -1,3 +1,4 @@
+<%@ defaultCodec="HTML" %>
 <html>
 	<head>
 		<title>GSP example</title>
@@ -20,6 +21,7 @@
 		<g:applyLayout name="sample">
 		Text to decorate. 
 		</g:applyLayout>
+		${'<script>test escaping</script>'}
 		<h3>Configuration</h3>
 		<table>
 		<g:each var="k,v" in="${grailsApplication.flatConfig}">

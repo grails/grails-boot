@@ -39,10 +39,12 @@ import org.springframework.boot.autoconfigure.AutoConfigureAfter;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.boot.autoconfigure.web.WebMvcAutoConfiguration;
+import org.springframework.context.EnvironmentAware;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;
 import org.springframework.context.annotation.ImportBeanDefinitionRegistrar;
+import org.springframework.core.env.Environment;
 import org.springframework.core.type.AnnotationMetadata;
 import org.springframework.util.StringUtils;
 import org.springframework.web.servlet.ViewResolver;
@@ -60,7 +62,7 @@ public class GspAutoConfiguration {
     }
     
     @Configuration
-    @Import({TagLibraryLookupRegistrar.class})
+    @Import({TagLibraryLookupRegistrar.class, RemoveDefaultViewResolverRegistrar.class})
     protected static class GspTemplateEngineAutoConfiguration extends AbstractGspConfig {
         @Value("${spring.gsp.templateRoots:classpath:/templates}")
         String[] templateRoots;
@@ -171,6 +173,42 @@ public class GspAutoConfiguration {
             beanDefinition.setBeanClass(beanClass);
             beanDefinition.setAutowireMode(GenericBeanDefinition.AUTOWIRE_BY_NAME);
             return beanDefinition;
+        }
+    }
+    
+    /**
+     * {@link WebMvcAutoConfiguration} adds defaultViewResolver and viewResolver beans.
+     * 
+     *  This ImportBeanDefinitionRegistrar removes the defaultViewResolver and replaces 
+     *  the viewResolver bean with GSP view resolver by default.
+     *  
+     *  The behavior of this class can be controlled with spring.gsp.removeDefaultViewResolver and
+     *  spring.gsp.replaceViewResolverBean configuration properties.
+     *
+     */
+    protected static class RemoveDefaultViewResolverRegistrar implements ImportBeanDefinitionRegistrar, EnvironmentAware {
+        boolean removeDefaultViewResolverBean;
+        boolean replaceViewResolverBean;
+        
+        @Override
+        public void registerBeanDefinitions(AnnotationMetadata importingClassMetadata, BeanDefinitionRegistry registry) {
+            if(removeDefaultViewResolverBean) {
+                if(registry.containsBeanDefinition("defaultViewResolver")) {
+                    registry.removeBeanDefinition("defaultViewResolver");
+                }
+            }
+            if(replaceViewResolverBean) {
+                if(registry.containsBeanDefinition("viewResolver")) {
+                    registry.removeBeanDefinition("viewResolver");
+                }
+                registry.registerAlias("gspViewResolver", "viewResolver");
+            }
+        }
+
+        @Override
+        public void setEnvironment(Environment environment) {
+            removeDefaultViewResolverBean = environment.getProperty("spring.gsp.removeDefaultViewResolverBean", Boolean.class, true);
+            replaceViewResolverBean = environment.getProperty("spring.gsp.replaceViewResolverBean", Boolean.class, true);
         }
     }
 }

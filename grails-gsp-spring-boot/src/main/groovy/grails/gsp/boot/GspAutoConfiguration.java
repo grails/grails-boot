@@ -19,6 +19,8 @@ package grails.gsp.boot;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.codehaus.groovy.grails.commons.GrailsApplication;
+import org.codehaus.groovy.grails.commons.StandaloneGrailsApplication;
 import org.codehaus.groovy.grails.web.pages.GroovyPagesTemplateEngine;
 import org.codehaus.groovy.grails.web.pages.GroovyPagesTemplateRenderer;
 import org.codehaus.groovy.grails.web.pages.StandaloneTagLibraryLookup;
@@ -44,7 +46,10 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;
 import org.springframework.context.annotation.ImportBeanDefinitionRegistrar;
+import org.springframework.core.env.ConfigurableEnvironment;
+import org.springframework.core.env.EnumerablePropertySource;
 import org.springframework.core.env.Environment;
+import org.springframework.core.env.PropertySource;
 import org.springframework.core.type.AnnotationMetadata;
 import org.springframework.util.StringUtils;
 import org.springframework.web.servlet.ViewResolver;
@@ -143,6 +148,45 @@ public class GspAutoConfiguration {
             innerGspViewResolver.setAllowGrailsViewCaching(!gspReloadingEnabled || viewCacheTimeout != 0);
             innerGspViewResolver.setCacheTimeout(gspReloadingEnabled ? viewCacheTimeout : -1);
             return innerGspViewResolver;
+        }
+    }
+    
+    @Configuration
+    protected static class StandaloneGrailsApplicationConfiguration {
+        @Bean
+        @ConditionalOnMissingBean(name = "grailsApplication") 
+        public GrailsApplication grailsApplication() {
+            return new SpringBootGrailsApplication();
+        }
+    }
+    
+    /**
+     * Makes Spring Boot application properties available in the GrailsApplication instance's flatConfig
+     *
+     */
+    public static class SpringBootGrailsApplication extends StandaloneGrailsApplication implements EnvironmentAware {
+        private Environment environment;
+        
+        @Override
+        public void updateFlatConfig() {
+            super.updateFlatConfig();
+            if(this.environment instanceof ConfigurableEnvironment) {
+                ConfigurableEnvironment configurableEnv = ((ConfigurableEnvironment)environment);
+                for(PropertySource<?> propertySource : configurableEnv.getPropertySources()) {
+                    if(propertySource instanceof EnumerablePropertySource) {
+                        EnumerablePropertySource<?> enumerablePropertySource = (EnumerablePropertySource)propertySource;
+                        for(String propertyName : enumerablePropertySource.getPropertyNames()) {
+                            flatConfig.put(propertyName, enumerablePropertySource.getProperty(propertyName));
+                        }
+                    }
+                }
+            }
+        }
+        
+        @Override
+        public void setEnvironment(Environment environment) {
+            this.environment = environment;
+            updateFlatConfig();
         }
     }
     

@@ -37,6 +37,8 @@ dependencies {
 }
 
 sourceSets.main.compileClasspath += configurations.provided
+javadoc.classpath += configurations.provided
+
 idea {
   module{
     scopes.PROVIDED.plus += configurations.provided

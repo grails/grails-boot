@@ -20,5 +20,11 @@
 		<g:applyLayout name="sample">
 		Text to decorate. 
 		</g:applyLayout>
+		<h3>Configuration</h3>
+		<table>
+		<g:each var="k,v" in="${grailsApplication.flatConfig}">
+			<tr><td>${k}</td><td>${v}</td></tr>
+		</g:each>
+		<table>
 	</body>
 </html>

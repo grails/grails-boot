@@ -27,12 +27,12 @@ repositories {
 dependencies {
     compile "org.grails:grails-web-gsp:${grailsVersion}"
     compile "org.grails:grails-spring:${grailsVersion}"
-    compile "org.codehaus.groovy:groovy-all:${groovyVersion}"
     compile "org.springframework.boot:spring-boot-autoconfigure:${springBootVersion}"
     compile "org.springframework.boot:spring-boot-cli:${springBootVersion}", {
         exclude group:'org.codehaus.groovy', module:'groovy'
     }
     provided "javax.servlet:javax.servlet-api:3.0.1"
+    provided "org.codehaus.groovy:groovy-all:${groovyVersion}"
     //testCompile "org.spockframework:spock-core:0.7-groovy-2.0"
 }
 

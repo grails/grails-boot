@@ -19,9 +19,9 @@ apply plugin: 'eclipse'
 apply plugin: 'idea'
 
 repositories {
+    mavenLocal()
     mavenCentral()
     maven { url "http://repo.spring.io/libs-milestone" }
-    mavenLocal()
 }
 
 dependencies {

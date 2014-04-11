@@ -28,7 +28,7 @@ repositories {
 
 dependencies {
     compile("org.springframework.boot:spring-boot-starter-web")
-    compile("org.codehaus.groovy:groovy:2.3.0-beta-1")
+    compile("org.codehaus.groovy:groovy:2.3.0-beta-2")
     compile("org.grails:grails-gsp-spring-boot:1.0.0.BUILD-SNAPSHOT")    
     compile("org.hibernate:hibernate-validator")
     compile("org.apache.tomcat.embed:tomcat-embed-el")

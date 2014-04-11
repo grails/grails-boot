@@ -40,7 +40,6 @@ import org.springframework.beans.factory.support.BeanDefinitionRegistry;
 import org.springframework.beans.factory.support.GenericBeanDefinition;
 import org.springframework.beans.factory.support.ManagedList;
 import org.springframework.boot.autoconfigure.AutoConfigureAfter;
-import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.boot.autoconfigure.web.WebMvcAutoConfiguration;
 import org.springframework.context.EnvironmentAware;
@@ -57,7 +56,6 @@ import org.springframework.util.StringUtils;
 import org.springframework.web.servlet.ViewResolver;
 
 @Configuration
-@ConditionalOnClass(GroovyPagesTemplateEngine.class)
 @AutoConfigureAfter(WebMvcAutoConfiguration.class)
 public class GspAutoConfiguration {
     protected static abstract class AbstractGspConfig {

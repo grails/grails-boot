@@ -26,6 +26,7 @@ repositories {
 
 dependencies {
     compile "org.grails:grails-web-gsp:${grailsVersion}"
+    provided "org.grails:grails-web-jsp:${grailsVersion}"
     compile "org.grails:grails-spring:${grailsVersion}"
     compile "org.springframework.boot:spring-boot-autoconfigure:${springBootVersion}"
     compile "org.springframework.boot:spring-boot-cli:${springBootVersion}", {
@@ -33,6 +34,7 @@ dependencies {
     }
     provided "javax.servlet:javax.servlet-api:3.0.1"
     provided "org.codehaus.groovy:groovy-all:${groovyVersion}"
+    provided "javax.servlet.jsp:javax.servlet.jsp-api:2.3.1"
     //testCompile "org.spockframework:spock-core:0.7-groovy-2.0"
 }
 

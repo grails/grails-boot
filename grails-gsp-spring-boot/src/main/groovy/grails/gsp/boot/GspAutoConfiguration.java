@@ -29,6 +29,7 @@ import org.codehaus.groovy.grails.web.pages.StandaloneTagLibraryLookup;
 import org.codehaus.groovy.grails.web.pages.discovery.CachingGrailsConventionGroovyPageLocator;
 import org.codehaus.groovy.grails.web.pages.discovery.GrailsConventionGroovyPageLocator;
 import org.codehaus.groovy.grails.web.pages.discovery.GroovyPageLocator;
+import org.codehaus.groovy.grails.web.pages.ext.jsp.TagLibraryResolverImpl;
 import org.codehaus.groovy.grails.web.servlet.view.GrailsLayoutViewResolver;
 import org.codehaus.groovy.grails.web.servlet.view.GroovyPageViewResolver;
 import org.codehaus.groovy.grails.web.sitemesh.GroovyPageLayoutFinder;
@@ -40,6 +41,7 @@ import org.springframework.beans.factory.support.BeanDefinitionRegistry;
 import org.springframework.beans.factory.support.GenericBeanDefinition;
 import org.springframework.beans.factory.support.ManagedList;
 import org.springframework.boot.autoconfigure.AutoConfigureAfter;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.boot.autoconfigure.web.WebMvcAutoConfiguration;
 import org.springframework.context.EnvironmentAware;
@@ -262,6 +264,15 @@ public class GspAutoConfiguration {
         public void setEnvironment(Environment environment) {
             removeDefaultViewResolverBean = environment.getProperty("spring.gsp.removeDefaultViewResolverBean", Boolean.class, true);
             replaceViewResolverBean = environment.getProperty("spring.gsp.replaceViewResolverBean", Boolean.class, true);
+        }
+    }
+    
+    @ConditionalOnClass({javax.servlet.jsp.tagext.JspTag.class, TagLibraryResolverImpl.class})
+    @Configuration
+    protected static class GspJspIntegrationConfiguration {
+        @Bean(autowire = Autowire.BY_NAME)
+        public TagLibraryResolverImpl jspTagLibraryResolver() {
+            return new TagLibraryResolverImpl();
         }
     }
 }

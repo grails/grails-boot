@@ -28,8 +28,10 @@ repositories {
 
 dependencies {
     compile("org.springframework.boot:spring-boot-starter-web")
-    compile("org.codehaus.groovy:groovy:2.3.0-beta-2")
+    compile("org.codehaus.groovy:groovy-all:2.3.0-beta-2")
     compile("org.grails:grails-gsp-spring-boot:1.0.0.BUILD-SNAPSHOT")    
+    compile("org.grails:grails-web-jsp:2.4.0.BUILD-SNAPSHOT")    
+    compile("javax.servlet.jsp:javax.servlet.jsp-api:2.3.1")
     compile("org.hibernate:hibernate-validator")
     compile("org.apache.tomcat.embed:tomcat-embed-el")
     testCompile("junit:junit")

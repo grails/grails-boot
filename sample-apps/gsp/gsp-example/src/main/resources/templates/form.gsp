@@ -1,7 +1,7 @@
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <html>
     <body>
-        <form:form commandName="${person}" method="post">
+        <form:form commandName="person" method="post">
             <table>
                 <tr>
                     <td>Name:</td>
@@ -10,7 +10,7 @@
                 </tr>
                 <tr>
                     <td>Age:</td>
-                    <td><form:input page="age" /></td>
+                    <td><form:input path="age" /></td>
                     <td><form:errors path="age" /></td>
                 </tr>
                 <tr>

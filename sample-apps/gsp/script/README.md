@@ -1,0 +1,1 @@
+Note: Use the 'run_app.sh' script as the example won't work with 'spring run app.groovy' until Boot updates to Groovy 2.3

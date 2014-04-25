@@ -17,10 +17,23 @@
 		</g:each>
 		<h3>Using a tag library</h3>
 		<g:dateFormat format="dd-MM-yyyy" date="${new Date()}" />
+
+		<h3>Using a tag library in an expression</h3>
+		<p>${g.dateFormat(format:'dd-MM-yyyy', date:new Date())}</p>
+
+		<h3>Rendering a template</h3>
 		<g:render template="subtemplate" />
+
+		<h3>Rendering a template with a body</h3>
+		<g:render template="template_body">		
+			My template body
+		</g:render>
+
+		<h3>Applying a layout</h3>		
 		<g:applyLayout name="sample">
 		Text to decorate. 
 		</g:applyLayout>
+		<h3>Automatic XSS prevention</h3>		
 		${'<script>test escaping</script>'}
 		<h3>Configuration</h3>
 		<table>

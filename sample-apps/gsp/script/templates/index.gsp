@@ -33,8 +33,10 @@
 		<g:applyLayout name="sample">
 		Text to decorate. 
 		</g:applyLayout>
+
 		<h3>Automatic XSS prevention</h3>		
 		${'<script>test escaping</script>'}
+		
 		<h3>Configuration</h3>
 		<table>
 		<g:each var="k,v" in="${grailsApplication.flatConfig}">

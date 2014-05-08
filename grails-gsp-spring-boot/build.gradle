@@ -6,12 +6,12 @@ configurations {
 
 ext {
     springBootVersion = '1.0.2.RELEASE'
-    grailsVersion = '2.4.0.M2'
-    groovyVersion = '2.3.0-rc-1'
+    grailsVersion = '2.4.0.RC1'
+    groovyVersion = '2.3.0'
 }
 
 group = 'org.grails'
-version = "1.0.0.M1"
+version = "1.0.0.M2"
 sourceCompatibility = 1.6
 targetCompatibility = 1.6
 
@@ -53,5 +53,5 @@ eclipse {
 }
 
 task wrapper(type: Wrapper) {
-    gradleVersion = '1.11'
+    gradleVersion = '1.12'
 }

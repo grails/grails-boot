@@ -16,7 +16,9 @@
 
 package grails.gsp.boot;
 
+import java.io.File;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import org.codehaus.groovy.grails.commons.GrailsApplication;
@@ -71,7 +73,10 @@ public class GspAutoConfiguration {
     @Configuration
     @Import({TagLibraryLookupRegistrar.class, RemoveDefaultViewResolverRegistrar.class})
     protected static class GspTemplateEngineAutoConfiguration extends AbstractGspConfig {
-        @Value("${spring.gsp.templateRoots:classpath:/templates}")
+        private static final String LOCAL_DIRECTORY_TEMPLATE_ROOT="./src/main/resources/templates";
+        private static final String CLASSPATH_TEMPLATE_ROOT="classpath:/templates";
+        
+        @Value("${spring.gsp.templateRoots:}")
         String[] templateRoots;
         
         @Value("${spring.gsp.locator.cacheTimeout:5000}")
@@ -94,18 +99,53 @@ public class GspAutoConfiguration {
         @Bean(autowire=Autowire.BY_NAME)
         @ConditionalOnMissingBean(name="groovyPageLocator")
         GroovyPageLocator groovyPageLocator() {
+            final List<String> templateRootsCleaned=resolveTemplateRoots();
             CachingGrailsConventionGroovyPageLocator pageLocator = new CachingGrailsConventionGroovyPageLocator() {
                 protected List<String> resolveSearchPaths(String uri) {
-                    List<String> paths=new ArrayList<String>(templateRoots.length);
-                    for(String rootPath : templateRoots) {
-                        paths.add(rootPath + StringUtils.cleanPath(uri));
+                    List<String> paths=new ArrayList<String>(templateRootsCleaned.size());
+                    for(String rootPath : templateRootsCleaned) {
+                        paths.add(rootPath + cleanUri(uri));
                     }
                     return paths;
+                }
+
+                protected String cleanUri(String uri) {
+                    uri = StringUtils.cleanPath(uri);
+                    if(!uri.startsWith("/")) {
+                        uri = "/" + uri;
+                    }
+                    return uri;
                 }
             };
             pageLocator.setReloadEnabled(gspReloadingEnabled);
             pageLocator.setCacheTimeout(gspReloadingEnabled ? locatorCacheTimeout : -1);
             return pageLocator;
+        }
+
+        protected List<String> resolveTemplateRoots() {
+            if (templateRoots.length > 0) {
+                List<String> rootPaths = new ArrayList<String>(templateRoots.length);
+                for (String rootPath : templateRoots) {
+                    rootPath = rootPath.trim();
+                    // remove trailing slash since uri will always be prefixed with a slash
+                    if(rootPath.endsWith("/")) {
+                        rootPath = rootPath.substring(0, rootPath.length()-1);
+                    }
+                    if(!StringUtils.isEmpty(rootPath)) {
+                        rootPaths.add(rootPath);
+                    }
+                }
+                return rootPaths;
+            }
+            else {
+                if (gspReloadingEnabled) {
+                    File templateRootDirectory = new File(LOCAL_DIRECTORY_TEMPLATE_ROOT);
+                    if (templateRootDirectory.isDirectory()) {
+                        return Collections.singletonList("file:" + LOCAL_DIRECTORY_TEMPLATE_ROOT);
+                    }
+                }
+                return Collections.singletonList(CLASSPATH_TEMPLATE_ROOT);
+            }
         }
         
         @Bean
@@ -178,6 +218,7 @@ public class GspAutoConfiguration {
     public static class SpringBootGrailsApplication extends StandaloneGrailsApplication implements EnvironmentAware {
         private Environment environment;
         
+        @SuppressWarnings({ "rawtypes", "unchecked" })
         @Override
         public void updateFlatConfig() {
             super.updateFlatConfig();

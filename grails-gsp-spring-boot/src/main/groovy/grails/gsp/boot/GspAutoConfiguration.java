@@ -20,6 +20,7 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.Properties;
 
 import org.codehaus.groovy.grails.commons.GrailsApplication;
 import org.codehaus.groovy.grails.commons.StandaloneGrailsApplication;
@@ -54,6 +55,7 @@ import org.springframework.context.annotation.ImportBeanDefinitionRegistrar;
 import org.springframework.core.env.ConfigurableEnvironment;
 import org.springframework.core.env.EnumerablePropertySource;
 import org.springframework.core.env.Environment;
+import org.springframework.core.env.PropertiesPropertySource;
 import org.springframework.core.env.PropertySource;
 import org.springframework.core.type.AnnotationMetadata;
 import org.springframework.util.StringUtils;
@@ -310,10 +312,26 @@ public class GspAutoConfiguration {
     
     @ConditionalOnClass({javax.servlet.jsp.tagext.JspTag.class, TagLibraryResolverImpl.class})
     @Configuration
-    protected static class GspJspIntegrationConfiguration {
+    protected static class GspJspIntegrationConfiguration implements EnvironmentAware {
         @Bean(autowire = Autowire.BY_NAME)
         public TagLibraryResolverImpl jspTagLibraryResolver() {
             return new TagLibraryResolverImpl();
+        }
+
+        @Override
+        public void setEnvironment(Environment environment) {
+            if(environment instanceof ConfigurableEnvironment) {
+                ConfigurableEnvironment configEnv = (ConfigurableEnvironment) environment;
+                Properties defaultProperties = createDefaultProperties();
+                configEnv.getPropertySources().addLast(new PropertiesPropertySource(GspJspIntegrationConfiguration.class.getName(), defaultProperties));
+            }
+        }
+
+        protected Properties createDefaultProperties() {
+            Properties defaultProperties = new Properties();
+            // scan for spring JSP taglib tld files by default
+            defaultProperties.put("spring.gsp.tldScanPattern","classpath*:/META-INF/spring*.tld");
+            return defaultProperties;
         }
     }
 }

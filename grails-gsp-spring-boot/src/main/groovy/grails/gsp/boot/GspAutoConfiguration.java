@@ -329,8 +329,8 @@ public class GspAutoConfiguration {
 
         protected Properties createDefaultProperties() {
             Properties defaultProperties = new Properties();
-            // scan for spring JSP taglib tld files by default
-            defaultProperties.put("spring.gsp.tldScanPattern","classpath*:/META-INF/spring*.tld");
+            // scan for spring JSP taglib tld files by default, also scan for 
+            defaultProperties.put("spring.gsp.tldScanPattern","classpath*:/META-INF/spring*.tld,classpath*:/META-INF/fmt.tld,classpath*:/META-INF/c.tld,classpath*:/META-INF/c-1_0-rt.tld");
             return defaultProperties;
         }
     }

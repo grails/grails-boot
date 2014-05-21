@@ -50,17 +50,17 @@
         <dependency>
             <groupId>org.grails</groupId>
             <artifactId>grails-gsp-spring-boot</artifactId>
-            <version>1.0.0.RC1</version>
+            <version>1.0.0</version>
         </dependency>
         <dependency>
             <groupId>org.grails</groupId>
             <artifactId>grails-web-gsp</artifactId>
-            <version>2.4.0.RC1</version>
+            <version>2.4.0</version>
         </dependency>        
         <dependency>
             <groupId>org.grails</groupId>
             <artifactId>grails-web-jsp</artifactId>
-            <version>2.4.0.RC1</version>
+            <version>2.4.0</version>
         </dependency>        
         <dependency>
             <groupId>javax.servlet.jsp</groupId>

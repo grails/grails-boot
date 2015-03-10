@@ -21,11 +21,12 @@ apply plugin: 'idea'
 repositories {
     mavenLocal()
     mavenCentral()
-    maven { url "http://repo.spring.io/libs-milestone" }
+    //maven { url "http://repo.spring.io/libs-milestone" }
 }
 
 dependencies {
     compile "org.grails:grails-web-gsp:${grailsVersion}"
+    compile "org.grails:grails-web-gsp-taglib:${grailsVersion}"
     provided "org.grails:grails-web-jsp:${grailsVersion}"
     compile "org.grails:grails-spring:${grailsVersion}"
     compile "org.springframework.boot:spring-boot-autoconfigure:${springBootVersion}"

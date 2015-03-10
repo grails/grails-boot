@@ -5,7 +5,7 @@ buildscript {
         maven { url "http://repo.spring.io/libs-milestone" }
     }
     dependencies {
-        classpath("org.springframework.boot:spring-boot-gradle-plugin:1.0.2.RELEASE")
+        classpath("org.springframework.boot:spring-boot-gradle-plugin:1.1.11.RELEASE")
     }
 }
 
@@ -28,10 +28,11 @@ repositories {
 
 dependencies {
     compile("org.springframework.boot:spring-boot-starter-web")
-    compile("org.codehaus.groovy:groovy-all:2.3.1")
-    compile("org.grails:grails-gsp-spring-boot:1.0.0")    
-    compile("org.grails:grails-web-gsp:2.4.0")
-    compile("org.grails:grails-web-jsp:2.4.0")    
+    compile("org.codehaus.groovy:groovy-all:2.3.7")
+    compile("org.grails:grails-gsp-spring-boot:1.0.0")
+    compile("org.grails:grails-web-gsp:2.4.4")
+    compile("org.grails:grails-web-gsp-taglib:2.4.4")
+    compile("org.grails:grails-web-jsp:2.4.4")
     compile("javax.servlet.jsp:javax.servlet.jsp-api:2.3.1")
     compile("org.hibernate:hibernate-validator")
     compile("org.apache.tomcat.embed:tomcat-embed-el")

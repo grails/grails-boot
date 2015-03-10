@@ -10,7 +10,7 @@
     <parent>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
-        <version>1.0.2.RELEASE</version>
+        <version>1.1.11.RELEASE</version>
     </parent>
 
     <properties>
@@ -22,8 +22,8 @@
 
     <build>
         <plugins>
-            <plugin> 
-                <artifactId>maven-compiler-plugin</artifactId> 
+            <plugin>
+                <artifactId>maven-compiler-plugin</artifactId>
             </plugin>
             <plugin>
                 <groupId>org.springframework.boot</groupId>
@@ -31,7 +31,7 @@
             </plugin>
         </plugins>
     </build>
-    
+
     <dependencies>
         <dependency>
             <groupId>org.springframework.boot</groupId>
@@ -45,7 +45,7 @@
         <dependency>
             <groupId>org.codehaus.groovy</groupId>
             <artifactId>groovy-all</artifactId>
-            <version>2.3.1</version>
+            <version>2.3.7</version>
         </dependency>
         <dependency>
             <groupId>org.grails</groupId>
@@ -55,18 +55,23 @@
         <dependency>
             <groupId>org.grails</groupId>
             <artifactId>grails-web-gsp</artifactId>
-            <version>2.4.0</version>
-        </dependency>        
+            <version>2.4.4</version>
+        </dependency>
+        <dependency>
+            <groupId>org.grails</groupId>
+            <artifactId>grails-web-gsp-taglib</artifactId>
+            <version>2.4.4</version>
+        </dependency>
         <dependency>
             <groupId>org.grails</groupId>
             <artifactId>grails-web-jsp</artifactId>
-            <version>2.4.0</version>
-        </dependency>        
+            <version>2.4.4</version>
+        </dependency>
         <dependency>
             <groupId>javax.servlet.jsp</groupId>
             <artifactId>javax.servlet.jsp-api</artifactId>
             <version>2.3.1</version>
-        </dependency>        
+        </dependency>
         <dependency>
             <groupId>org.hibernate</groupId>
             <artifactId>hibernate-validator</artifactId>
@@ -76,21 +81,4 @@
 			<artifactId>tomcat-embed-el</artifactId>
 		</dependency>
     </dependencies>
-    
-    <repositories>
-        <repository>
-            <id>spring-milestones</id>
-            <name>Spring Milestones</name>
-            <url>http://repo.spring.io/libs-milestone</url>
-        </repository>
-    </repositories>
-
-    <pluginRepositories>
-        <pluginRepository>
-            <id>spring-milestones</id>
-            <name>Spring Milestones</name>
-            <url>http://repo.spring.io/libs-milestone</url>
-        </pluginRepository>
-    </pluginRepositories>
-
 </project>

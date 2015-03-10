@@ -74,10 +74,13 @@ uploadArchives {
                         id 'graemerocher'
                         name 'Graeme Rocher'
                     }
+                    developer {
+                        id 'lhotari'
+                        name 'Lari Hotari'
+                    }
                 }
             }
         }
 
     }
 }
-

@@ -2,10 +2,10 @@ buildscript {
     repositories {
         mavenLocal()
 		mavenCentral()
-        maven { url "http://repo.spring.io/libs-milestone" }
+        maven { url "https://repo.spring.io/libs-milestone" }
     }
     dependencies {
-        classpath("org.springframework.boot:spring-boot-gradle-plugin:1.1.11.RELEASE")
+        classpath("org.springframework.boot:spring-boot-gradle-plugin:1.5.9.RELEASE")
     }
 }
 
@@ -22,18 +22,28 @@ jar {
 repositories {
     mavenLocal()
     mavenCentral()
-    maven { url "http://repo.spring.io/libs-milestone" }
-    maven { url "http://repo.grails.org/grails/libs-snapshots-local" }
+    maven { url "https://repo.spring.io/libs-milestone" }
+    maven { url "https://repo.grails.org/grails/libs-snapshots-local" }
 }
 
 ext {
-    groovyVersion = '2.3.7'
     grailsVersion = '2.4.4'
+    groovyVersion = '3.0.18'
+}
+
+configurations.all {
+  resolutionStrategy {
+    eachDependency { DependencyResolveDetails details ->
+      if (details.requested.group == 'org.codehaus.groovy') {
+          details.useVersion groovyVersion
+      }
+    }
+  }
 }
 
 dependencies {
     compile("org.springframework.boot:spring-boot-starter-web")
-    compile("org.codehaus.groovy:groovy-all:$groovyVersion")
+    implementation("org.codehaus.groovy:groovy-all:$groovyVersion")
     compile("org.grails:grails-gsp-spring-boot:1.0.0")
     compile("org.grails:grails-web-gsp:$grailsVersion")
     compile("org.grails:grails-web-gsp-taglib:$grailsVersion")
@@ -43,8 +53,4 @@ dependencies {
     compile("org.hibernate:hibernate-validator")
     compile("org.apache.tomcat.embed:tomcat-embed-el")
     testCompile("junit:junit")
-}
-
-task wrapper(type: Wrapper) {
-    gradleVersion = '2.3'
 }

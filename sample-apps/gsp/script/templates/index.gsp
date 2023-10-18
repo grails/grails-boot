@@ -36,10 +36,10 @@
 
 		<h3>Automatic XSS prevention</h3>		
 		${'<script>test escaping</script>'}
-		
-		<h3>Configuration</h3>
+
+		<h3>grailsApplication${grailsApplication == null?' not':''} set.</h3>
 		<table>
-		<g:each var="k,v" in="${grailsApplication.flatConfig}">
+		<g:each var="k,v" in="${grailsApplication.config}">
 			<tr><td>${k}</td><td>${v}</td></tr>
 		</g:each>
 		<table>

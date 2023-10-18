@@ -1,0 +1,17 @@
+pluginManagement {
+    repositories {
+        mavenLocal()
+        maven { url "https://repo.grails.org/grails/core/" }
+        gradlePluginPortal()
+    }
+    plugins {
+        id "org.grails.grails-web" version "6.0.1-SNAPSHOT"
+        id "org.grails.grails-gsp" version "6.0.1-SNAPSHOT"
+    }
+}
+
+rootProject.name = 'grails-boot'
+
+include ':gsp-example', ':grails-gsp-spring-boot'
+//rootProject.projectDir = file('grails-gsp-spring-boot')
+project(':gsp-example').projectDir = file('sample-apps/gsp/gsp-example')

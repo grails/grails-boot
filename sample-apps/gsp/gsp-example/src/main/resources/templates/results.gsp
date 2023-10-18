@@ -1,5 +1,5 @@
 <html>
 	<body>
-		Congratulations! You are old enough to sign up for this site.
+		Congratulations ${session.getAttribute("person").name}! You are old enough to sign up for this site.
 	</body>
 </html>

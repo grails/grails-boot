@@ -1,56 +1,50 @@
 buildscript {
-    repositories {
-        mavenLocal()
-		mavenCentral()
-        maven { url "https://repo.spring.io/libs-milestone" }
-    }
-    dependencies {
-        classpath("org.springframework.boot:spring-boot-gradle-plugin:1.5.9.RELEASE")
+    ext {
+        springBootVersion = project.hasProperty('springBootVersion')? "${springBootVersion}" : '2.7.0'
     }
 }
 
-apply plugin: 'java'
-apply plugin: 'eclipse'
-apply plugin: 'idea'
-apply plugin: 'spring-boot'
-
-jar {
-    baseName = 'gs-validating-form-input-gsp'
-    version =  '0.1.0'
+plugins {
+    id 'java'
+    id 'war'
+    id 'org.springframework.boot' version "${springBootVersion}"
+    id "groovy"
+    id "org.grails.grails-web"
+    id "org.grails.grails-gsp"
 }
 
 repositories {
     mavenLocal()
     mavenCentral()
-    maven { url "https://repo.spring.io/libs-milestone" }
-    maven { url "https://repo.grails.org/grails/libs-snapshots-local" }
 }
 
 ext {
-    grailsVersion = '2.4.4'
-    groovyVersion = '3.0.18'
+    grailsVersion = project.hasProperty('grailsVersion')? grailsVersion : '5.2.0'
+    groovyVersion = project.hasProperty('grailsVersion')? groovyVersion : '3.0.13'
 }
 
-configurations.all {
-  resolutionStrategy {
-    eachDependency { DependencyResolveDetails details ->
-      if (details.requested.group == 'org.codehaus.groovy') {
-          details.useVersion groovyVersion
-      }
-    }
-  }
+tasks.withType(War).configureEach { War war ->
+    war.dependsOn compileGroovyPages
+}
+
+jar {
+    processResources.exclude('**/*.gsp')
+}
+
+compileGroovyPages {
+    source = project.file("${project.projectDir}/src/main/resources/templates")
 }
 
 dependencies {
-    compile("org.springframework.boot:spring-boot-starter-web")
-    implementation("org.codehaus.groovy:groovy-all:$groovyVersion")
-    compile("org.grails:grails-gsp-spring-boot:1.0.0")
-    compile("org.grails:grails-web-gsp:$grailsVersion")
-    compile("org.grails:grails-web-gsp-taglib:$grailsVersion")
-    compile("org.grails:grails-web-jsp:$grailsVersion")
-    compile("org.grails:grails-validation:$grailsVersion")
-    compile("javax.servlet.jsp:javax.servlet.jsp-api:2.3.1")
-    compile("org.hibernate:hibernate-validator")
-    compile("org.apache.tomcat.embed:tomcat-embed-el")
-    testCompile("junit:junit")
+    implementation project(':grails-gsp-spring-boot')
+
+    implementation("org.springframework.boot:spring-boot-starter-web:${springBootVersion}")
+
+    implementation("org.hibernate:hibernate-validator:6.0.10.Final") // validation
+
+    implementation("org.grails:grails-web-jsp:$grailsGspVersion")
+    implementation("javax.servlet.jsp:javax.servlet.jsp-api:2.3.3")
+    implementation("javax.servlet.jsp.jstl:javax.servlet.jsp.jstl-api:1.2.2")
+    implementation 'org.apache.tomcat.embed:tomcat-embed-jasper:9.0.76' // jsp
+    implementation("org.apache.tomcat.embed:tomcat-embed-el")
 }

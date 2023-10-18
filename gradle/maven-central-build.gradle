@@ -1,9 +1,9 @@
 apply plugin:'maven'
-apply plugin: 'signing'
+apply plugin:'signing'
 apply plugin:'groovy'
 
 ext {
-    isBuildSnapshot = version.endsWith( "BUILD-SNAPSHOT" )
+    isBuildSnapshot = version.endsWith( "SNAPSHOT" )
 }
 
 

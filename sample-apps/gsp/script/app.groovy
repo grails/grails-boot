@@ -1,8 +1,5 @@
-//@GrabResolver(name='grailsSnapshots', root='http://repo.grails.org/grails/libs-snapshots-local')
-@Grab("org.codehaus.groovy:groovy-templates:3.0.18")
-@Grab("org.codehaus.groovy:groovy-xml:3.0.18")
-@Grab("org.codehaus.groovy:groovy:3.0.18")
-@Grab("org.grails:grails-gsp-spring-boot:1.0.0")
+@Grab("org.grails:grails-gsp-spring-boot:6.0.0-SNAPSHOT")
+
 import grails.gsp.TagLib
 import org.springframework.web.servlet.ModelAndView
 import java.text.SimpleDateFormat

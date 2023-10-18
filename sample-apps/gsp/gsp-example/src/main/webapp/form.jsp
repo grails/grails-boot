@@ -1,5 +1,8 @@
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <html>
+    <head>
+        <meta name="layout" content="main" />
+    </head>
     <body>
         <form:form modelAttribute="person" method="post">
             <table>
@@ -18,8 +21,5 @@
                 </tr>
             </table>
         </form:form>
-        <g:applyLayout name="sample">
-            Text to decorate.
-        </g:applyLayout>
     </body>
 </html>

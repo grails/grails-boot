@@ -1,54 +1,19 @@
-apply from:'../gradle/maven-central-build.gradle'
-
-configurations {
-    provided
+plugins {
+    id 'java-library'
+    id "maven-publish"
 }
 
-ext {
-    springBootVersion = '1.5.22.RELEASE'
-    grailsVersion = '2.5.6'
-    groovyVersion = '3.0.18'
-}
+//apply from:'../gradle/maven-central-build.gradle'
 
-group = 'org.grails'
-version = "1.0.0"
-sourceCompatibility = 1.8
-targetCompatibility = 1.8
-
-apply plugin: 'eclipse'
-apply plugin: 'idea'
-
-repositories {
-    mavenLocal()
-    mavenCentral()
-    //maven { url "http://repo.spring.io/libs-milestone" }
+publishing {
+    publications {
+        mavenJava(MavenPublication) {
+            from(project.components.java)
+        }
+    }
 }
 
 dependencies {
-    compile "org.grails:grails-web-gsp:${grailsVersion}"
-    compile "org.grails:grails-web-gsp-taglib:${grailsVersion}"
-    provided "org.grails:grails-web-jsp:${grailsVersion}"
-    compile "org.grails:grails-spring:${grailsVersion}"
-    compile "org.springframework.boot:spring-boot-autoconfigure:${springBootVersion}"
-    compile "org.springframework.boot:spring-boot-cli:${springBootVersion}", {
-        exclude group:'org.codehaus.groovy', module:'groovy'
-    }
-    provided "javax.servlet:javax.servlet-api:3.0.1"
-    implementation "org.codehaus.groovy:groovy-all:${groovyVersion}"
-    provided "javax.servlet.jsp:javax.servlet.jsp-api:2.3.1"
-    //testCompile "org.spockframework:spock-core:0.7-groovy-2.0"
-}
-
-sourceSets.main.compileClasspath += configurations.provided
-javadoc.classpath += configurations.provided
-
-idea {
-  module{
-    scopes.PROVIDED.plus += configurations.provided
-  }
-}
-eclipse {
-  classpath {
-    plusConfigurations += configurations.provided
-  }
+    api "org.sitemesh:grails-plugin-sitemesh3:2.0.0-SNAPSHOT"
+    compileOnly "javax.servlet.jsp:javax.servlet.jsp-api:2.3.3"
 }

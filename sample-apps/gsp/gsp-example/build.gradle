@@ -1,6 +1,6 @@
 buildscript {
     ext {
-        springBootVersion = project.hasProperty('springBootVersion')? "${springBootVersion}" : '2.7.0'
+        springBootVersion = project.hasProperty('springBootVersion')? "${springBootVersion}" : '2.7.16'
     }
 }
 
@@ -19,12 +19,8 @@ repositories {
 }
 
 ext {
-    grailsVersion = project.hasProperty('grailsVersion')? grailsVersion : '5.2.0'
-    groovyVersion = project.hasProperty('grailsVersion')? groovyVersion : '3.0.13'
-}
-
-tasks.withType(War).configureEach { War war ->
-    war.dependsOn compileGroovyPages
+    grailsVersion = project.hasProperty('grailsVersion')? grailsVersion : '6.1.0'
+    groovyVersion = project.hasProperty('grailsVersion')? groovyVersion : '3.0.19'
 }
 
 jar {
@@ -45,6 +41,6 @@ dependencies {
     implementation("org.grails:grails-web-jsp:$grailsGspVersion")
     implementation("javax.servlet.jsp:javax.servlet.jsp-api:2.3.3")
     implementation("javax.servlet.jsp.jstl:javax.servlet.jsp.jstl-api:1.2.2")
-    implementation 'org.apache.tomcat.embed:tomcat-embed-jasper:9.0.76' // jsp
+    implementation 'org.apache.tomcat.embed:tomcat-embed-jasper' // jsp
     implementation("org.apache.tomcat.embed:tomcat-embed-el")
 }

@@ -1,6 +1,6 @@
 buildscript {
     ext {
-        springBootVersion = project.hasProperty('springBootVersion')? "${springBootVersion}" : '2.7.16'
+        springBootVersion = project.hasProperty('springBootVersion')? "${springBootVersion}" : '2.7.18'
     }
 }
 
@@ -19,8 +19,8 @@ repositories {
 }
 
 ext {
-    grailsVersion = project.hasProperty('grailsVersion')? grailsVersion : '6.1.0'
-    groovyVersion = project.hasProperty('grailsVersion')? groovyVersion : '3.0.19'
+    grailsVersion = project.hasProperty('grailsVersion')? grailsVersion : '6.1.2'
+    groovyVersion = project.hasProperty('grailsVersion')? groovyVersion : '3.0.20'
 }
 
 jar {

@@ -3,15 +3,15 @@ plugins {
 }
 
 ext {
-    grailsVersion = '6.1.2'
-    grailsGspVersion = '6.1.2'
+    grailsVersion = '6.2.1'
+    grailsGspVersion = '6.2.1'
     springBootVersion = '2.7.18'
-    groovyVersion = '3.0.20'
+    groovyVersion = '3.0.21'
 }
 
 allprojects {
     group = 'org.grails'
-    version = "6.1.2-SNAPSHOT"
+    version = "6.2.2-SNAPSHOT"
 
     sourceCompatibility = 1.11
     targetCompatibility = 1.11

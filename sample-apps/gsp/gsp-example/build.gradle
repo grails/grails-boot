@@ -2,6 +2,9 @@ buildscript {
     ext {
         springBootVersion = project.hasProperty('springBootVersion')? "${springBootVersion}" : '2.7.18'
     }
+    dependencies {
+        classpath "org.grails:grails-gradle-plugin:6.2.1"
+    }
 }
 
 plugins {

@@ -27,5 +27,9 @@ grailsPublish {
     }
     title = 'GSP Spring Boot Plugin'
     desc = 'Provides GSP for Spring Boot Applications'
-    developers = [codeconsole: 'Scott Murphy Heiberg']
+    developers = [
+        graemerocher: 'Graeme Rocher',
+        lhotari: 'Lari Hotari',
+        codeconsole: 'Scott Murphy Heiberg'
+    ]
 }

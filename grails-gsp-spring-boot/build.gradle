@@ -28,3 +28,11 @@ grailsPublish {
     desc = 'Provides GSP for Spring Boot Applications'
     developers = [codeconsole: 'Scott Murphy Heiberg']
 }
+
+publishing {
+    publications {
+        mavenJava(MavenPublication) {
+            from(project.components.java)
+        }
+    }
+}

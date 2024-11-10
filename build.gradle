@@ -4,7 +4,6 @@ plugins {
 
 allprojects {
     group = 'org.grails'
-    version = "6.2.2-SNAPSHOT"
 
     compileJava.options.release = 11
 

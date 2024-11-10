@@ -1,19 +1,30 @@
-plugins {
-    id 'java-library'
-    id "maven-publish"
-}
-
-//apply from:'../gradle/maven-central-build.gradle'
-
-publishing {
-    publications {
-        mavenJava(MavenPublication) {
-            from(project.components.java)
-        }
+buildscript {
+    repositories {
+        maven { url = 'https://repo.grails.org/grails/core' }
+    }
+    dependencies {
+        classpath "org.grails:grails-gradle-plugin:6.2.1"
     }
 }
+
+plugins {
+    id 'java-library'
+}
+
+apply plugin: "org.grails.internal.grails-plugin-publish"
 
 dependencies {
     api "org.sitemesh:grails-plugin-sitemesh3:6.2.0"
     compileOnly "javax.servlet.jsp:javax.servlet.jsp-api:2.3.3"
+}
+
+grailsPublish {
+    userOrg = 'grails'
+    githubSlug = 'grails/grails-boot'
+    license {
+        name = 'Apache-2.0'
+    }
+    title = 'GSP Spring Boot Plugin'
+    desc = 'Provides GSP for Spring Boot Applications'
+    developers = [codeconsole: 'Scott Murphy Heiberg']
 }

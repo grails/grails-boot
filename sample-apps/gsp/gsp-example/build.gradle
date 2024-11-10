@@ -1,9 +1,9 @@
 buildscript {
-    ext {
-        grailsVersion = '6.2.1'
+    repositories {
+        maven { url "https://repo.grails.org/grails/core/" }
     }
     dependencies {
-        classpath "org.grails:grails-gradle-plugin:6.2.1"
+        classpath "org.grails:grails-gradle-plugin:6.2.2-SNAPSHOT"
     }
 }
 
@@ -11,10 +11,11 @@ plugins {
     id 'java'
     id 'war'
     id 'org.springframework.boot' version "2.7.18"
+    id 'io.spring.dependency-management' version '1.0.15.RELEASE'
     id "groovy"
-    id "org.grails.grails-web"
-    id "org.grails.grails-gsp"
 }
+
+apply plugin: "org.grails.grails-gsp"
 
 repositories {
     mavenLocal()
@@ -36,7 +37,7 @@ dependencies {
 
     implementation("org.hibernate:hibernate-validator:6.0.10.Final") // validation
 
-    implementation("org.grails:grails-web-jsp:6.2.1")
+    implementation("org.grails:grails-web-jsp:6.2.2-SNAPSHOT")
     implementation("javax.servlet.jsp:javax.servlet.jsp-api:2.3.3")
     implementation("javax.servlet.jsp.jstl:javax.servlet.jsp.jstl-api:1.2.2")
     implementation 'org.apache.tomcat.embed:tomcat-embed-jasper' // jsp

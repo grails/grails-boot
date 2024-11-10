@@ -1,4 +1,4 @@
-@Grab("org.grails:grails-gsp-spring-boot:6.1.2-SNAPSHOT")
+@Grab("org.grails:grails-gsp-spring-boot:6.2.2-SNAPSHOT")
 
 import grails.gsp.TagLib
 import org.springframework.web.servlet.ModelAndView

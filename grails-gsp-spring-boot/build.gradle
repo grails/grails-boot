@@ -14,6 +14,7 @@ plugins {
 apply plugin: "org.grails.internal.grails-plugin-publish"
 
 dependencies {
+    implementation platform("org.grails:grails-bom:6.2.1")
     api "org.sitemesh:grails-plugin-sitemesh3:6.2.0"
     compileOnly "javax.servlet.jsp:javax.servlet.jsp-api:2.3.3"
 }
@@ -27,12 +28,4 @@ grailsPublish {
     title = 'GSP Spring Boot Plugin'
     desc = 'Provides GSP for Spring Boot Applications'
     developers = [codeconsole: 'Scott Murphy Heiberg']
-}
-
-publishing {
-    publications {
-        mavenJava(MavenPublication) {
-            from(project.components.java)
-        }
-    }
 }

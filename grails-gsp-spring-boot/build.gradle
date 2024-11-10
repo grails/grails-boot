@@ -1,4 +1,7 @@
 buildscript {
+    ext {
+        grailsVersion = '6.2.1'
+    }
     repositories {
         maven { url = 'https://repo.grails.org/grails/core' }
     }
@@ -11,10 +14,10 @@ plugins {
     id 'java-library'
 }
 
+apply plugin: 'org.grails.grails-plugin'
 apply plugin: "org.grails.internal.grails-plugin-publish"
 
 dependencies {
-    implementation platform("org.grails:grails-bom:6.2.1")
     api "org.sitemesh:grails-plugin-sitemesh3:6.2.0"
     compileOnly "javax.servlet.jsp:javax.servlet.jsp-api:2.3.3"
 }

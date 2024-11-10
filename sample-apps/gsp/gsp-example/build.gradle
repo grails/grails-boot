@@ -1,6 +1,6 @@
 buildscript {
     ext {
-        springBootVersion = project.hasProperty('springBootVersion')? "${springBootVersion}" : '2.7.18'
+        grailsVersion = '6.2.1'
     }
     dependencies {
         classpath "org.grails:grails-gradle-plugin:6.2.1"
@@ -10,7 +10,7 @@ buildscript {
 plugins {
     id 'java'
     id 'war'
-    id 'org.springframework.boot' version "${springBootVersion}"
+    id 'org.springframework.boot' version "2.7.18"
     id "groovy"
     id "org.grails.grails-web"
     id "org.grails.grails-gsp"
@@ -19,11 +19,6 @@ plugins {
 repositories {
     mavenLocal()
     mavenCentral()
-}
-
-ext {
-    grailsVersion = project.hasProperty('grailsVersion')? grailsVersion : '6.1.2'
-    groovyVersion = project.hasProperty('grailsVersion')? groovyVersion : '3.0.20'
 }
 
 jar {
@@ -37,11 +32,11 @@ compileGroovyPages {
 dependencies {
     implementation project(':grails-gsp-spring-boot')
 
-    implementation("org.springframework.boot:spring-boot-starter-web:${springBootVersion}")
+    implementation("org.springframework.boot:spring-boot-starter-web:2.7.18")
 
     implementation("org.hibernate:hibernate-validator:6.0.10.Final") // validation
 
-    implementation("org.grails:grails-web-jsp:$grailsGspVersion")
+    implementation("org.grails:grails-web-jsp:6.2.1")
     implementation("javax.servlet.jsp:javax.servlet.jsp-api:2.3.3")
     implementation("javax.servlet.jsp.jstl:javax.servlet.jsp.jstl-api:1.2.2")
     implementation 'org.apache.tomcat.embed:tomcat-embed-jasper' // jsp

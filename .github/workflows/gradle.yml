@@ -43,13 +43,3 @@ jobs:
           ./gradlew
           -Dorg.gradle.internal.publish.checksums.insecure=true
           publish
-      - name: "📖 Publish Groovydoc to Github Pages"
-        if: success() && github.event_name == 'push'
-        uses: micronaut-projects/github-pages-deploy-action@grails
-        env:
-          BRANCH: gh-pages
-          COMMIT_EMAIL: ${{ env.GIT_USER_EMAIL }}
-          COMMIT_NAME: ${{ env.GIT_USER_NAME }}
-          DOC_FOLDER: gh-pages
-          FOLDER: build/docs
-          GH_TOKEN: ${{ secrets.GH_TOKEN }}

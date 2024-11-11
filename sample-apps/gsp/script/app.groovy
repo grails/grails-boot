@@ -1,3 +1,4 @@
+@GrabResolver(name='grails-repo', root='https://repo.grails.org/grails/core/')
 @Grab("org.grails:grails-gsp-spring-boot:6.2.2-SNAPSHOT")
 
 import grails.gsp.TagLib

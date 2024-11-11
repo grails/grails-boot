@@ -32,4 +32,5 @@ grailsPublish {
         lhotari: 'Lari Hotari',
         codeconsole: 'Scott Murphy Heiberg'
     ]
+    snapshotUrl = 'https://repo.grails.org/grails/libs-snapshots-local'
 }

@@ -3,22 +3,21 @@ buildscript {
         maven { url "https://repo.grails.org/grails/core/" }
     }
     dependencies {
-        classpath "org.grails:grails-gradle-plugin:6.2.2-SNAPSHOT"
+        classpath "org.grails:grails-gradle-plugin:7.0.0-SNAPSHOT"
     }
 }
 
 plugins {
     id 'java'
     id 'war'
-    id 'org.springframework.boot' version "2.7.18"
-    id 'io.spring.dependency-management' version '1.0.15.RELEASE'
+    id 'org.springframework.boot' version "3.3.5"
+    id 'io.spring.dependency-management' version '1.1.6'
     id "groovy"
 }
 
 apply plugin: "org.grails.grails-gsp"
 
 repositories {
-    mavenLocal()
     mavenCentral()
     maven { url "https://repo.grails.org/grails/core/" }
 }
@@ -34,13 +33,11 @@ compileGroovyPages {
 dependencies {
     implementation project(':grails-gsp-spring-boot')
 
-    implementation("org.springframework.boot:spring-boot-starter-web:2.7.18")
+    implementation "org.hibernate.validator:hibernate-validator:8.0.0.Final" // validation
 
-    implementation("org.hibernate:hibernate-validator:6.0.10.Final") // validation
+    implementation "org.grails:grails-web-jsp:7.0.0-SNAPSHOT"
+    implementation "org.grails:grails-plugin-controllers:7.0.0-SNAPSHOT"  // only needed for GrailsFilters
 
-    implementation("org.grails:grails-web-jsp:6.2.2-SNAPSHOT")
-    implementation("javax.servlet.jsp:javax.servlet.jsp-api:2.3.3")
-    implementation("javax.servlet.jsp.jstl:javax.servlet.jsp.jstl-api:1.2.2")
     implementation 'org.apache.tomcat.embed:tomcat-embed-jasper' // jsp
-    implementation("org.apache.tomcat.embed:tomcat-embed-el")
+    implementation "org.apache.tomcat.embed:tomcat-embed-el"
 }

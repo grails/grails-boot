@@ -3,7 +3,7 @@ buildscript {
         maven { url = 'https://repo.grails.org/grails/core' }
     }
     dependencies {
-        classpath "org.grails:grails-gradle-plugin:6.2.2-SNAPSHOT"
+        classpath "org.grails:grails-gradle-plugin:7.0.0-SNAPSHOT"
     }
 }
 
@@ -14,9 +14,13 @@ plugins {
 apply plugin: 'org.grails.grails-plugin'
 apply plugin: "org.grails.internal.grails-plugin-publish"
 
+repositories {
+    mavenCentral()
+    maven { url "https://repo.grails.org/grails/core/" }
+}
+
 dependencies {
-    api "org.sitemesh:grails-plugin-sitemesh3:6.2.0"
-    compileOnly "javax.servlet.jsp:javax.servlet.jsp-api:2.3.3"
+    api "org.sitemesh:grails-plugin-sitemesh3:7.0.0-SNAPSHOT"
 }
 
 grailsPublish {

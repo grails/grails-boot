@@ -28,15 +28,15 @@ import org.grails.encoder.impl.StandaloneCodecLookup;
 import org.grails.encoder.CodecLookup;
 import org.grails.gsp.GroovyPagesTemplateEngine;
 import org.grails.gsp.io.GroovyPageScriptSource;
+import org.grails.gsp.jsp.TagLibraryResolver;
 import org.grails.plugins.web.taglib.RenderSitemeshTagLib;
+import org.grails.taglib.TagLibraryLookup;
 import org.grails.web.gsp.GroovyPagesTemplateRenderer;
 import org.grails.web.pages.StandaloneTagLibraryLookup;
 import org.grails.web.gsp.io.CachingGrailsConventionGroovyPageLocator;
 import org.grails.web.gsp.io.GrailsConventionGroovyPageLocator;
 import org.grails.gsp.jsp.TagLibraryResolverImpl;
-import org.grails.web.servlet.view.GrailsLayoutViewResolver;
 import org.grails.web.servlet.view.GroovyPageViewResolver;
-import org.grails.web.sitemesh.GroovyPageLayoutFinder;
 import org.sitemesh.autoconfigure.SiteMeshAutoConfiguration;
 import org.sitemesh.grails.plugins.sitemesh3.GrailsLayoutHandlerMapping;
 import org.sitemesh.grails.plugins.sitemesh3.Sitemesh3GrailsPlugin;
@@ -69,7 +69,7 @@ import org.springframework.web.servlet.ViewResolver;
 import org.grails.plugins.web.taglib.SitemeshTagLib;
 import org.grails.plugins.web.taglib.RenderTagLib;
 
-import javax.servlet.ServletContext;
+import jakarta.servlet.ServletContext;
 
 @Configuration
 @AutoConfigureAfter(WebMvcAutoConfiguration.class)
@@ -111,15 +111,17 @@ public class GspAutoConfiguration {
         @Value("${sitemesh.decorator.default:}")
         String defaultLayoutName;
 
-        @Bean(autowire=Autowire.BY_NAME)
+        @Bean
         @ConditionalOnMissingBean(name="groovyPagesTemplateEngine") 
-        GroovyPagesTemplateEngine groovyPagesTemplateEngine() {
+        GroovyPagesTemplateEngine groovyPagesTemplateEngine(TagLibraryResolver tagLibraryResolver, TagLibraryLookup tagLibraryLookup) {
             GroovyPagesTemplateEngine templateEngine = new GroovyPagesTemplateEngine();
             templateEngine.setReloadEnabled(gspReloadingEnabled);
+            templateEngine.setJspTagLibraryResolver(tagLibraryResolver);
+            templateEngine.setTagLibraryLookup(tagLibraryLookup);
             return templateEngine;
         }
         
-        @Bean(autowire=Autowire.BY_NAME)
+        @Bean
         @ConditionalOnMissingBean(name="groovyPageLocator")
         GrailsConventionGroovyPageLocator groovyPageLocator() {
             final List<String> templateRootsCleaned=resolveTemplateRoots();
@@ -175,17 +177,6 @@ public class GspAutoConfiguration {
         }
         
         @Bean
-        @ConditionalOnMissingBean(name = "groovyPageLayoutFinder")
-        public GroovyPageLayoutFinder groovyPageLayoutFinder() {
-            GroovyPageLayoutFinder groovyPageLayoutFinder = new GroovyPageLayoutFinder();
-            groovyPageLayoutFinder.setGspReloadEnabled(gspReloadingEnabled);
-            groovyPageLayoutFinder.setCacheEnabled(gspLayoutCaching);
-            groovyPageLayoutFinder.setEnableNonGspViews(false);
-            groovyPageLayoutFinder.setDefaultDecoratorName(defaultLayoutName);
-            return groovyPageLayoutFinder;
-        }
-        
-        @Bean(autowire=Autowire.BY_NAME)
         @ConditionalOnMissingBean(name = "groovyPagesTemplateRenderer")
         GroovyPagesTemplateRenderer groovyPagesTemplateRenderer() {
             GroovyPagesTemplateRenderer groovyPagesTemplateRenderer = new GroovyPagesTemplateRenderer();
@@ -217,16 +208,12 @@ public class GspAutoConfiguration {
     protected static class GspViewResolverConfiguration extends AbstractGspConfig {
         @Bean
         @ConditionalOnMissingBean(name = "gspViewResolver")
-        public ViewResolver gspViewResolver(GroovyPagesTemplateEngine groovyPagesTemplateEngine, GrailsConventionGroovyPageLocator groovyPageLocator, GroovyPageLayoutFinder groovyPageLayoutFinder) {
+        public ViewResolver gspViewResolver(GroovyPagesTemplateEngine groovyPagesTemplateEngine, GrailsConventionGroovyPageLocator groovyPageLocator) {
             GroovyPageViewResolver groovyPageViewResolver = new GroovyPageViewResolver(groovyPagesTemplateEngine, groovyPageLocator);
             groovyPageViewResolver.setResolveJspView(jspEnabled);
             groovyPageViewResolver.setAllowGrailsViewCaching(!gspReloadingEnabled || viewCacheTimeout != 0);
             groovyPageViewResolver.setCacheTimeout(gspReloadingEnabled ? viewCacheTimeout : -1);
-            if (!sitemesh3) {
-                return new GrailsLayoutViewResolver(groovyPageViewResolver, groovyPageLayoutFinder);
-            } else {
-                return groovyPageViewResolver;
-            }
+            return groovyPageViewResolver;
         }
     }
     
@@ -317,10 +304,10 @@ public class GspAutoConfiguration {
         }
     }
     
-    @ConditionalOnClass({javax.servlet.jsp.tagext.JspTag.class, TagLibraryResolverImpl.class})
+    @ConditionalOnClass({TagLibraryResolverImpl.class})
     @Configuration
     protected static class GspJspIntegrationConfiguration implements EnvironmentAware {
-        @Bean(autowire = Autowire.BY_NAME)
+        @Bean
         public TagLibraryResolverImpl jspTagLibraryResolver() {
             return new TagLibraryResolverImpl();
         }

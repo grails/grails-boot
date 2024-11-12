@@ -5,11 +5,5 @@ plugins {
 allprojects {
     group = 'org.grails'
 
-    compileJava.options.release = 11
-
-    repositories {
-        mavenLocal()
-        mavenCentral()
-        maven { url "https://repo.grails.org/grails/core/" }
-    }
+    compileJava.options.release = 17
 }

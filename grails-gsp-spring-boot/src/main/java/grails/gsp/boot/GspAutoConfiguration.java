@@ -113,11 +113,12 @@ public class GspAutoConfiguration {
 
         @Bean
         @ConditionalOnMissingBean(name="groovyPagesTemplateEngine") 
-        GroovyPagesTemplateEngine groovyPagesTemplateEngine(TagLibraryResolver tagLibraryResolver, TagLibraryLookup tagLibraryLookup) {
+        GroovyPagesTemplateEngine groovyPagesTemplateEngine(TagLibraryResolver tagLibraryResolver, TagLibraryLookup tagLibraryLookup, GroovyPagesTemplateRenderer groovyPagesTemplateRenderer) {
             GroovyPagesTemplateEngine templateEngine = new GroovyPagesTemplateEngine();
             templateEngine.setReloadEnabled(gspReloadingEnabled);
             templateEngine.setJspTagLibraryResolver(tagLibraryResolver);
             templateEngine.setTagLibraryLookup(tagLibraryLookup);
+            groovyPagesTemplateRenderer.setGroovyPagesTemplateEngine(templateEngine);
             return templateEngine;
         }
         

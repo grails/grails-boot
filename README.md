@@ -15,5 +15,5 @@ To run Spring Boot Script App
 ```shell
  cd sample-apps/gsp/script
  sdk env
- spring run app.groovy
+ groovy -Dgroovy.grape.report.downloads=true app.groovy
 ```

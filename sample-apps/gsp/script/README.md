@@ -1,5 +1,6 @@
-Use the following command with Spring Boot CLI 2.x
+Use the following command with Groovy CLI 4.x
 
 ```shell
-spring run app.groovy
+sdk env
+groovy -Dgroovy.grape.report.downloads=true app.groovy
 ```

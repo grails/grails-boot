@@ -11,7 +11,7 @@ To run Spring Boot App
  ./gradlew :gsp-example:bootRun
 ```
 
-To run Spring Boot Script App
+To run Spring Boot Groovy Script
 ```shell
  cd sample-apps/gsp/script
  sdk env

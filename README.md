@@ -7,8 +7,8 @@ GORM Spring Boot plugins have been moved to https://github.com/grails/grails-dat
 
 To run Spring Boot App
 ```shell
-sdk env
-./gradlew :gsp-example:bootRun
+  sdk env
+  ./gradlew :gsp-example:bootRun
 ```
 
 To run Spring Boot Script App

@@ -36,7 +36,6 @@ dependencies {
     implementation "org.hibernate.validator:hibernate-validator:8.0.0.Final" // validation
 
     implementation "org.grails:grails-web-jsp:7.0.0-SNAPSHOT"
-    implementation "org.grails:grails-plugin-controllers:7.0.0-SNAPSHOT"  // only needed for GrailsFilters
 
     implementation 'org.apache.tomcat.embed:tomcat-embed-jasper' // jsp
     implementation "org.apache.tomcat.embed:tomcat-embed-el"

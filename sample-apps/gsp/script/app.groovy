@@ -2,7 +2,6 @@ package demo
 
 @GrabResolver(name='grails-repo', root='https://repo.grails.org/grails/core/')
 @Grab("org.grails:grails-gsp-spring-boot:7.0.0-SNAPSHOT")
-@Grab("org.grails:grails-plugin-controllers:7.0.0-SNAPSHOT")
 // if you need to clear snapshots, they are saved to ~/.groovy/grapes
 
 import org.springframework.boot.autoconfigure.SpringBootApplication

@@ -41,7 +41,6 @@ import org.sitemesh.autoconfigure.SiteMeshAutoConfiguration;
 import org.sitemesh.grails.plugins.sitemesh3.GrailsLayoutHandlerMapping;
 import org.sitemesh.grails.plugins.sitemesh3.Sitemesh3GrailsPlugin;
 import org.springframework.beans.BeansException;
-import org.springframework.beans.factory.annotation.Autowire;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.beans.factory.config.BeanDefinition;

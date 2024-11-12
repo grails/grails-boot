@@ -179,9 +179,10 @@ public class GspAutoConfiguration {
         
         @Bean
         @ConditionalOnMissingBean(name = "groovyPagesTemplateRenderer")
-        GroovyPagesTemplateRenderer groovyPagesTemplateRenderer() {
+        GroovyPagesTemplateRenderer groovyPagesTemplateRenderer(GrailsConventionGroovyPageLocator groovyPageLocator) {
             GroovyPagesTemplateRenderer groovyPagesTemplateRenderer = new GroovyPagesTemplateRenderer();
             groovyPagesTemplateRenderer.setCacheEnabled(!gspReloadingEnabled);
+            groovyPagesTemplateRenderer.setGroovyPageLocator(groovyPageLocator);
             return groovyPagesTemplateRenderer;
         }
     }
